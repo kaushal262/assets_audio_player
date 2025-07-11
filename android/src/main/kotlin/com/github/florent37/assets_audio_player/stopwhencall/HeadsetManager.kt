@@ -16,24 +16,24 @@ import kotlin.collections.ArrayList
 private class MusicIntentReceiver : BroadcastReceiver() {
     var pluggedListener: ((Boolean) -> Unit)? = null
     override fun onReceive(context: Context, intent: Intent) {
-            if (intent.action == ACTION_AUDIO_BECOMING_NOISY) {
-                pluggedListener?.invoke(false)
-            }
-            if (intent.action == Intent.ACTION_HEADSET_PLUG) {
-                when (intent.getIntExtra("state", -1)) {
-                    0 -> {
-                        pluggedListener?.invoke(false)
-                        //"Headset is unplugged"
-                    }
-                    1 -> {
-                        pluggedListener?.invoke(true)
-                        // "Headset is plugged"
-                    }
-                    else -> {
-                        //"I have no idea what the headset state is"
-                    }
+        if (intent.action == ACTION_AUDIO_BECOMING_NOISY) {
+            pluggedListener?.invoke(false)
+        }
+        if (intent.action == Intent.ACTION_HEADSET_PLUG) {
+            when (intent.getIntExtra("state", -1)) {
+                0 -> {
+                    pluggedListener?.invoke(false)
+                    //"Headset is unplugged"
+                }
+                1 -> {
+                    pluggedListener?.invoke(true)
+                    // "Headset is plugged"
+                }
+                else -> {
+                    //"I have no idea what the headset state is"
                 }
             }
+        }
     }
 }
 
@@ -48,7 +48,7 @@ class HeadsetManager(private val context: Context) {
 
     val profileListener = object: BluetoothProfile.ServiceListener {
         override fun onServiceConnected(profile: Int, proxy: BluetoothProfile) {
-             if (profile == BluetoothProfile.HEADSET) {
+            if (profile == BluetoothProfile.HEADSET) {
                 /* Connected to BT headset profile proxy. */
                 this@HeadsetManager.onHeadsetPluggedListener?.invoke(true)
             }
@@ -75,7 +75,7 @@ class HeadsetManager(private val context: Context) {
         try {
             if(context.hasPermissionBluetooth()) {
                 BluetoothAdapter.getDefaultAdapter()
-                        ?.getProfileProxy(context, profileListener, BluetoothProfile.HEADSET)
+                    ?.getProfileProxy(context, profileListener, BluetoothProfile.HEADSET)
             }
         } catch (t: Throwable) {
             //t.printStackTrace()
