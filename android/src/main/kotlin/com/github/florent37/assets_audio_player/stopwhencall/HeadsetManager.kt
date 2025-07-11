@@ -88,12 +88,13 @@ class HeadsetManager(private val context: Context) {
 
 
     fun Context.hasPermissionBluetooth() : Boolean {
-        try {
+        return try {
             val packageInfo = this.packageManager.getPackageInfo(packageName, PackageManager.GET_PERMISSIONS)
-            return  packageInfo.requestedPermissions.contains("android.permission.BLUETOOTH")
+            packageInfo.requestedPermissions?.contains("android.permission.BLUETOOTH") ?: false
         } catch (t: Throwable) {
-
+            false
         }
+    }
 
         return false
     }
