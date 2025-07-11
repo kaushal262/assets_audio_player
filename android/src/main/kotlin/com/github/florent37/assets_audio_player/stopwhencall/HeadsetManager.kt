@@ -96,7 +96,4 @@ class HeadsetManager(private val context: Context) {
         }
     }
 
-        return false
-    }
-
 }
